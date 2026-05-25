@@ -57,7 +57,8 @@ public class PrintNumberInWord {   // Save as "PrintNumberInWord.java"
          case 9:
             System.out.println("NINE");
             break;
-         default: System.out.println( "OTHER" ); 
+         default: 
+            System.out.println( "OTHER" ); 
             break;
       }
    }
