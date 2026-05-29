@@ -1,6 +1,6 @@
 # Exercises on Java Basics
 
-A collection of foundational Java exercises completed as a rigorous self-study program to solidifying core programming mechanics. This repository serves as a practical sandbox to reinforce fundamental coding principles, software logic, and algorithmic thinking.
+A collection of foundational Java exercises completed as a self-study program to solidifying core programming mechanics. This repository serves as a practical sandbox to reinforce fundamental coding principles, software logic, and algorithmic thinking.
 
 ## Purpose & Context
 
