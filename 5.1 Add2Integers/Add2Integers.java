@@ -19,7 +19,7 @@ public class Add2Integers {  // Save as "Add2Integers.java"
       Scanner in = new Scanner(System.in);  // Scan the keyboard for input
       System.out.print("Enter first integer: ");  // No newline for prompting message
       number1 = in.nextInt();                     // Read next input as "int"
-      System.err.print("Enter second integer: ");
+      System.out.print("Enter second integer: ");
       number2 = in.nextInt();
       in.close();  // Close Scanner
 
