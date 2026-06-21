@@ -105,8 +105,11 @@ public class Battleship {
 
 // Use this method to check hit & miss
 	private static void attackShip(char[][] player, Scanner input) {
+		
 		int row = input.nextInt();
 		int col = input.nextInt();
+		
+		
 		if (locationExisted(player, row, col)){
 			player[row][col] = 'X';
 			System.out.println("PLAYER 1 HIT PLAYER 2's SHIP!");
