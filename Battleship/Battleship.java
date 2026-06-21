@@ -67,7 +67,7 @@ public class Battleship {
 				int row = locations[0];
 				int col = locations[1];
 
-				if (locationExisted(player, row, col)) { // Check if coordinates are valid
+				if (player[row][col] == '@') { // Check if coordinates are valid
 					System.out.println("You already have a ship there. Choose different coordinates.");
 				}
 				else {
@@ -117,30 +117,30 @@ public class Battleship {
 			}
 		}
 	}
-	
-// Use this method to check if locaion already existed
-	private static boolean locationExisted(char[][] player, int row, int col){
-		return player[row][col] == '@';	
-	}
 
 // Use this method to check hit & miss
 	private static void attackShip(char[][] player, Scanner input, int attackerNum) { // Add attacker & defender number to print correctly
+		boolean isValid = false;
+		int defenderNum = (attackerNum == 1) ? 2 : 1; // Loop through players to record who is attacking
+
+		while (!isValid) {
 		int[] locations = getValidLocation(input);
 		int row = locations[0];
 		int col = locations[1];
 
-		int defenderNum = (attackerNum == 1) ? 2 : 1; 
-
-		if (locationExisted(player, row, col)){
-			player[row][col] = 'X';
-			System.out.println("PLAYER " + attackerNum + " HIT PLAYER " + defenderNum + "'s SHIP!"); 
-		}
-		else if ((player[row][col] == 'X' || player[row][col] == 'O')) {
-			System.out.println("You already fired on this spot. Choose different coordinates.");
-		}
-		else{
-			System.out.println("PLAYER 1 MISSED!");
-			player[row][col] = 'O';
+			if (player[row][col] == '@') {
+				player[row][col] = 'X';
+				System.out.println("PLAYER " + attackerNum + " HIT PLAYER " + defenderNum + "'s SHIP!"); 
+				isValid = true;
+			}
+			else if ((player[row][col] == 'X' || player[row][col] == 'O')) {
+				System.out.println("You already fired on this spot. Choose different coordinates.");
+			}
+			else{
+				System.out.println("PLAYER " + attackerNum + " MISSED!");
+				player[row][col] = 'O';
+				isValid = true;
+			}
 		}
 	}
 
