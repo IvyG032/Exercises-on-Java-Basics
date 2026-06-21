@@ -10,9 +10,6 @@ public class Battleship {
 		// Call scanner in main
 		Scanner mainScanner = new Scanner(System.in);
 
-		// Initializes winner to 0 that represents no winner yet
-		int winner = 0;
-
 		// Starts game and call functions
 		System.out.println("Welcome to Battleship!");
 		System.out.println("PLAYER 1, ENTER YOUR SHIPS' COORDINATES.");
@@ -22,12 +19,34 @@ public class Battleship {
 		recordBattleShip(player2, mainScanner);
 		printBattleShip(player2, true);
 
-		while (winner == 0) {
+		while (true) {
+			// Player1 attack
 			System.out.println("Player 1, enter hit row/column:");
-			attackShip(player2, mainScanner);
+			attackShip(player2, mainScanner, 1);
 			printBattleShip(player2, false);
+			// Check if player1 wins
+			if (findWinner(player2)) {
+				System.out.println("PLAYER 1 WINS! YOU SUNK ALL OF PLAYER 2'S SHIPS!");
+				System.out.println("Final boards:");
+				printBattleShip(player1, true); // Game over, show board
+				System.out.println("\n");
+				printBattleShip(player2, true);
+				break;
+			}
+			// Player2 attack
+			System.out.println("Player 2, enter hit row/column:");
+			attackShip(player1, mainScanner, 2);
+			printBattleShip(player1, false);
+			// Check if player2 wins
+			if (findWinner(player1)) {
+				System.out.println("PLAYER 2 WINS! YOU SUNK ALL OF PLAYER 1'S SHIPS!");
+				System.out.println("Final boards:");
+				printBattleShip(player1, true);
+				System.out.println("\n");
+				printBattleShip(player2, true);
+				break;
+			}		
 		}
-
 		mainScanner.close();
 
 	}
@@ -44,13 +63,11 @@ public class Battleship {
 			boolean isValid = false; // The switch
 			while (!isValid) {
 				System.out.println("Enter ship " + (i+1) + " location: ");  // Record row and col as integers 
-				int row = input.nextInt();
-				int col = input.nextInt();
+				int[] locations = getValidLocation(input);
+				int row = locations[0];
+				int col = locations[1];
 
-				if (invalidLocation(row,col)) {
-					//If out of bound, !validLocation = True, isValid = False, restart loop
-				}
-				else if (locationExisted(player, row, col)) { // Check if coordinates are valid
+				if (locationExisted(player, row, col)) { // Check if coordinates are valid
 					System.out.println("You already have a ship there. Choose different coordinates.");
 				}
 				else {
@@ -88,13 +105,16 @@ public class Battleship {
 	}
 
 // Use this method to check if location is out of bounds
-	private static boolean invalidLocation(int row,int col) {
-		if (row < 0 || row > 4 || col < 0 || col > 4) { // Handle outofbounds error
-		System.out.println("Invalid coordinates. Choose different coordinates.");
-		return true;
-		}
-		else {
-			return false;
+	private static int[] getValidLocation(Scanner input) {
+		while (true) {
+			int row = input.nextInt();
+			int col = input.nextInt();
+			if (row < 0 || row > 4 || col < 0 || col > 4) { // Handle outofbounds error
+			System.out.println("Invalid coordinates. Choose different coordinates.");
+			}
+			else {
+				return new int[] {row, col};
+			}
 		}
 	}
 	
@@ -104,20 +124,38 @@ public class Battleship {
 	}
 
 // Use this method to check hit & miss
-	private static void attackShip(char[][] player, Scanner input) {
-		
-		int row = input.nextInt();
-		int col = input.nextInt();
-		
-		
+	private static void attackShip(char[][] player, Scanner input, int attackerNum) { // Add attacker & defender number to print correctly
+		int[] locations = getValidLocation(input);
+		int row = locations[0];
+		int col = locations[1];
+
+		int defenderNum = (attackerNum == 1) ? 2 : 1; 
+
 		if (locationExisted(player, row, col)){
 			player[row][col] = 'X';
-			System.out.println("PLAYER 1 HIT PLAYER 2's SHIP!");
+			System.out.println("PLAYER " + attackerNum + " HIT PLAYER " + defenderNum + "'s SHIP!"); 
+		}
+		else if ((player[row][col] == 'X' || player[row][col] == 'O')) {
+			System.out.println("You already fired on this spot. Choose different coordinates.");
 		}
 		else{
 			System.out.println("PLAYER 1 MISSED!");
 			player[row][col] = 'O';
 		}
 	}
-}
 
+
+// Use this method to detect winner
+	private static boolean findWinner(char[][] player) {
+		int count = 0;
+		for (int row = 0; row < 5; row++) {
+			for (int col = 0; col < 5; col++) {
+				if (player[row][col] == 'X') {
+					count++;
+				}
+			}
+		}
+		return count == 5;
+		// System.out.println(player + " WINS! YOU SUNK ALL OF YOUR OPPONENT'S SHIPS!");
+	}
+}
