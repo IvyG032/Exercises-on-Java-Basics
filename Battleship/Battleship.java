@@ -1,6 +1,10 @@
 import java.util.Scanner;
 
 public class Battleship {
+	// Add controller for bold text
+	private static final String BOLD = "\033[1m";
+	private static final String RESET = "\033[0m";
+
 	public static void main(String[] args) {
 		
 		// Initialize 2D array for both players
@@ -107,8 +111,11 @@ public class Battleship {
 // Use this method to check if location is out of bounds
 	private static int[] getValidLocation(Scanner input) {
 		while (true) {
+			System.out.print(BOLD); // Turn on bold
 			int row = input.nextInt();
 			int col = input.nextInt();
+			System.out.print(RESET); // Turn off bold
+
 			if (row < 0 || row > 4 || col < 0 || col > 4) { // Handle outofbounds error
 			System.out.println("Invalid coordinates. Choose different coordinates.");
 			}
@@ -156,6 +163,5 @@ public class Battleship {
 			}
 		}
 		return count == 5;
-		// System.out.println(player + " WINS! YOU SUNK ALL OF YOUR OPPONENT'S SHIPS!");
 	}
 }
