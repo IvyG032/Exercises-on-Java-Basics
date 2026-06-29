@@ -11,7 +11,7 @@ public class Search {
     public static int search(int[] array, int key) {
         for (int i = 0; i < array.length; i ++){
             if (array[i]==key) {
-                return array[i];
+                return i;
             }
         }
         return -1;
